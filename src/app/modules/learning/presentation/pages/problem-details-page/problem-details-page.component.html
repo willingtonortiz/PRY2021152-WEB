@@ -1,0 +1,74 @@
+<div class="header">
+  <div class="left">
+    <div class="back-button">
+      <button mat-icon-button type="button" routerLink="/learning/topics">
+        <mat-icon>arrow_back</mat-icon> {{ ' ' }} Regresar
+      </button>
+    </div>
+
+    <h1 class="title">{{ selectedAreaName }} / {{ selectedTopicName }}</h1>
+  </div>
+
+  <div class="right">
+    <span>¿Desea realizar algún cambio?</span>
+
+    <button
+      class="edit-button"
+      mat-flat-button
+      type="button"
+      color="primary"
+      [routerLink]="['/learning', 'problems', problemId, 'edit']"
+    >
+      Editar
+    </button>
+  </div>
+</div>
+
+<div class="content">
+  <div class="left">
+    <div class="property">
+      <p class="property__label">Descripción</p>
+
+      <p *ngIf="problem.description">{{ problem.description }}</p>
+      <p *ngIf="!problem.description">{{ 'No hay descripción' }}</p>
+    </div>
+
+    <div class="property">
+      <p class="property__label">Nivel</p>
+
+      <p>{{ problem.difficulty }}</p>
+    </div>
+
+    <div class="property">
+      <p class="property__label">Imagen del ejercicio</p>
+
+      <img
+        class="image"
+        *ngIf="problem.imageUrl"
+        [src]="problem.imageUrl"
+        alt="problem"
+      />
+      <p *ngIf="!problem.imageUrl">{{ 'No hay imagen' }}</p>
+    </div>
+
+    <div class="property">
+      <p class="property__label">Alternativas</p>
+      <div
+        class="answer"
+        *ngFor="let answer of answers; index as i"
+        [class.selected]="i === selectedAnswer"
+      >
+        {{ answer }}
+      </div>
+    </div>
+  </div>
+
+  <div class="right">
+    <app-problem-preview
+      [selectedAnswer]="selectedAnswer"
+      [answers]="answers"
+      [description]="problem.description ?? ''"
+      [imageUrl]="problem.imageUrl"
+    ></app-problem-preview>
+  </div>
+</div>

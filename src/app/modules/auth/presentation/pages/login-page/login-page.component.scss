@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  height: 100vh;
+}
+
+.container {
+  height: 100%;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+  .logo {
+    margin-bottom: 32px;
+    width: 200px;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .login-form {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+
+  .form-input {
+    width: 400px;
+    font-size: 18px;
+    margin-bottom: 48px;
+  }
+
+  .form-button {
+    margin-top: 32px;
+  }
+}

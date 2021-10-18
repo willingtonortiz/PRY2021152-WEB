@@ -1,0 +1,47 @@
+<button mat-icon-button type="button" routerLink="/equipments">
+  <mat-icon>arrow_back</mat-icon> {{ ' ' }} Regresar
+</button>
+
+<div class="images">
+  <app-equipment-image
+    class="image"
+    *ngIf="equipment && equipmentType"
+    [type]="equipmentType"
+    [imageUrl]="equipment?.imageUrl!"
+  ></app-equipment-image>
+
+  <div *ngIf="equipment" class="avatar-preview">
+    <img class="avatar" [src]="AVATAR_IMAGE" alt="avatar" />
+    <img class="equipment" [src]="equipment?.imageUrl" alt="equipment" />
+  </div>
+</div>
+
+<div class="property">
+  <span class="property__label">Nombre</span>
+  <span class="property__value">{{ equipment?.name }}</span>
+</div>
+
+<div class="property">
+  <span class="property__label">Descripción</span>
+  <span class="property__value">{{ equipment?.description }}</span>
+</div>
+
+<div class="property">
+  <span class="property__label">Ataque</span>
+  <span class="property__value">{{ equipment?.attack }}</span>
+</div>
+
+<div class="property">
+  <span class="property__label">Defensa</span>
+  <span class="property__value">{{ equipment?.defense }}</span>
+</div>
+
+<div class="property">
+  <span class="property__label">Precio de compra</span>
+  <span class="property__value">{{ equipment?.buyPrice }}</span>
+</div>
+
+<div class="property">
+  <span class="property__label">Precio de venta</span>
+  <span class="property__value">{{ equipment?.sellPrice }}</span>
+</div>

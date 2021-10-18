@@ -1,0 +1,77 @@
+:host {
+  height: 100vh;
+  min-height: 100vh;
+  padding: 32px 32px;
+
+  display: block;
+
+  background-color: white;
+}
+
+.header,
+.content {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.header {
+  margin: 32px 0;
+
+  .right {
+    button {
+      margin-left: 16px;
+    }
+  }
+}
+
+.content {
+  .left {
+    .image,
+    .attribute {
+      margin-bottom: 32px;
+    }
+
+    .attribute__label {
+      font-weight: bold;
+    }
+
+    .image {
+      width: 100px;
+      max-width: 100px;
+      height: 100px;
+      max-height: 100px;
+    }
+  }
+
+  .right {
+    margin-left: 64px;
+
+    flex: 1;
+
+    .enemies {
+      &__item {
+        margin: 16px 0;
+
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+
+        .image {
+          margin: 0 32px;
+          max-width: 40px;
+          width: 40px;
+          max-height: 40px;
+          height: 40px;
+
+          image-rendering: pixelated;
+        }
+
+        p {
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+  }
+}

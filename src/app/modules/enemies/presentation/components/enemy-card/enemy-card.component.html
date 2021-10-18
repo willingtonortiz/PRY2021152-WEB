@@ -1,0 +1,140 @@
+<div class="preview" *ngIf="mode === 'PREVIEW'">
+  <mat-icon
+    style="color: #5236ff; font-size: 26px; margin-bottom: 8px; cursor: pointer"
+    (click)="emitAddNewEnemy()"
+    >add_circle_outline</mat-icon
+  >
+
+  <span>Nuevo enemigo</span>
+</div>
+
+<div class="show" *ngIf="mode === 'SHOW' && enemy">
+  <img class="enemy__image" [src]="enemy.imageUrl" [alt]="enemy.name" />
+
+  <span class="enemy__name">{{ enemy.name }}</span>
+
+  <div class="enemy__options">
+    <mat-icon
+      class="enemy__option material-icons-outlined"
+      aria-hidden="false"
+      aria-label="Editar"
+      (click)="setEditMode()"
+      >edit</mat-icon
+    >
+    <mat-icon
+      class="enemy__option material-icons-outlined"
+      aria-hidden="false"
+      aria-label="Eliminar"
+      (click)="emitOnDeleteEnemy()"
+      >delete</mat-icon
+    >
+  </div>
+</div>
+
+<form class="add" *ngIf="mode === 'ADD'" [formGroup]="formGroup">
+  <input
+    #addImageInput
+    type="file"
+    style="display: none"
+    (change)="onFileSelected($event)"
+  />
+
+  <div
+    *ngIf="!imageSrc"
+    class="enemy__image__input"
+    (click)="addImageInput.click()"
+  >
+    <span>Cargar imagen</span>
+  </div>
+
+  <img
+    class="enemy__image"
+    *ngIf="imageSrc"
+    [src]="imageSrc"
+    (click)="addImageInput.click()"
+  />
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre</mat-label>
+
+    <input matInput placeholder="Nombre" formControlName="name" />
+
+    <mat-error *ngIf="fname.hasError('required')">
+      El nombre es requerido
+    </mat-error>
+
+    <mat-error
+      *ngIf="fname.hasError('minlength') || fname.hasError('maxlength')"
+    >
+      El nombre debe tener entre
+      {{ MIN_ENEMY_NAME_LENGTH }} y {{ MAX_ENEMY_NAME_LENGTH }} caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <div class="enemy__options">
+    <mat-icon
+      class="enemy__option material-icons-outlined"
+      aria-hidden="false"
+      aria-label="Editar"
+      (click)="emitOnConfirmAdd()"
+      >check</mat-icon
+    >
+    <mat-icon
+      class="enemy__option material-icons-outlined"
+      aria-hidden="false"
+      aria-label="Eliminar"
+      (click)="onCancelAdd.emit()"
+      >cancel</mat-icon
+    >
+  </div>
+</form>
+
+<form class="update" *ngIf="mode === 'EDIT'" [formGroup]="formGroup">
+  <input
+    #updateImageInput
+    type="file"
+    style="display: none"
+    (change)="onFileSelected($event)"
+  />
+
+  <img
+    class="enemy__image"
+    *ngIf="imageSrc"
+    [src]="imageSrc"
+    (click)="updateImageInput.click()"
+  />
+
+  <mat-form-field class="enemy__input" appearance="outline">
+    <mat-label>Nombre</mat-label>
+
+    <input matInput placeholder="Nombre" formControlName="name" />
+
+    <mat-error *ngIf="fname.hasError('required')">
+      El nombre es requerido
+    </mat-error>
+
+    <mat-error
+      *ngIf="fname.hasError('minlength') || fname.hasError('maxlength')"
+    >
+      El nombre debe tener entre
+      {{ MIN_ENEMY_NAME_LENGTH }} y {{ MAX_ENEMY_NAME_LENGTH }} caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <div class="enemy__options">
+    <mat-icon
+      class="enemy__option material-icons-outlined"
+      aria-hidden="false"
+      aria-label="Editar"
+      (click)="emitOnConfirmEdit()"
+      >check</mat-icon
+    >
+    <mat-icon
+      class="enemy__option material-icons-outlined"
+      aria-hidden="false"
+      aria-label="Eliminar"
+      (click)="setShowMode()"
+      >cancel</mat-icon
+    >
+  </div>
+</form>

@@ -1,0 +1,36 @@
+<div class="header">
+  <h1 style="font-weight: bold">Enemigos</h1>
+
+  <p *ngIf="!isLoading">
+    {{
+      enemies?.length
+        ? 'Hay ' + enemies?.length + ' enemigo/s'
+        : 'No hay ememigos'
+    }}
+  </p>
+
+  <mat-progress-bar
+    style="margin: 8px 0"
+    mode="indeterminate"
+    *ngIf="isLoading"
+  ></mat-progress-bar>
+</div>
+
+<ng-scrollbar visibility="hover">
+  <div class="enemies">
+    <app-enemy-card
+      class="add-new-enemy"
+      (click)="onAddNewEnemy()"
+    ></app-enemy-card>
+
+    <app-enemy-card
+      *ngFor="let enemy of enemies"
+      [mode]="enemy.mode"
+      [enemy]="enemy"
+      (onConfirmAdd)="addEnemy($event)"
+      (onCancelAdd)="removeAddCards()"
+      (onDeleteEnemy)="deleteEnemy($event)"
+      (onConfirmEdit)="updateEnemy($event)"
+    ></app-enemy-card>
+  </div>
+</ng-scrollbar>

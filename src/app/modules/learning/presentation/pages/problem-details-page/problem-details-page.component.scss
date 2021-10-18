@@ -1,0 +1,72 @@
+@import 'variables';
+
+:host {
+  min-height: 100vh;
+  height: 100vh;
+
+  display: block;
+  padding: 32px 32px;
+}
+
+.header,
+.content {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.header {
+  margin-bottom: 32px;
+
+  .title {
+    color: map-get($my-primary-color, 500);
+    font-weight: bold;
+  }
+
+  .edit-button {
+    margin-left: 16px;
+  }
+}
+
+.content {
+  .left {
+    margin-right: 64px;
+    min-width: 400px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+
+    .property {
+      width: 100%;
+      margin-bottom: 32px;
+
+      &__label {
+        font-weight: bold;
+      }
+
+      .image {
+        max-width: 100px;
+        max-height: 100px;
+      }
+
+      .answer {
+        width: 100%;
+        margin-bottom: 16px;
+        padding: 8px 16px;
+
+        background-color: #fafafa;
+        border-radius: 8px;
+
+        &.selected {
+          color: white;
+          background-color: map-get($my-primary-color, 500);
+        }
+      }
+    }
+
+    .property:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

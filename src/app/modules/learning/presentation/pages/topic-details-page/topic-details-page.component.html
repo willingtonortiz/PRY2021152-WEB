@@ -1,0 +1,60 @@
+<button mat-icon-button type="button" routerLink="/learning/topics">
+  <mat-icon>arrow_back</mat-icon> {{ ' ' }} Regresar
+</button>
+
+<div class="header">
+  <div class="left">
+    <h1>{{ selectedArea?.name }}</h1>
+  </div>
+
+  <div class="right">
+    <span>¿Desea realizar algún cambio?</span>
+
+    <button
+      class="edit-button"
+      mat-flat-button
+      type="button"
+      color="primary"
+      [routerLink]="['/learning', 'topics', topicId, 'edit']"
+    >
+      Editar
+    </button>
+  </div>
+</div>
+
+<div class="content">
+  <div class="left">
+    <img
+      class="image"
+      *ngIf="topic.imageUrl"
+      [src]="topic.imageUrl"
+      alt="topic"
+    />
+
+    <div class="attribute">
+      <p class="attribute__label">Nombre</p>
+
+      <p>{{ topic.name }}</p>
+    </div>
+
+    <div class="attribute">
+      <p class="attribute__label">Descripción</p>
+
+      <p>{{ topic.description }}</p>
+    </div>
+  </div>
+
+  <div class="right">
+    <h1>Niveles</h1>
+
+    <div class="enemies">
+      <div class="enemies__item" *ngFor="let enemy of enemies; index as i">
+        <p>Nivel {{ i }}</p>
+
+        <img class="image" [src]="enemy.enemyImageUrl" alt="enemy" />
+
+        <p>{{ enemy.enemyName }}</p>
+      </div>
+    </div>
+  </div>
+</div>

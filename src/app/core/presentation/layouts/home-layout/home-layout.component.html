@@ -1,0 +1,9 @@
+<mat-drawer-container>
+  <mat-drawer mode="side" [opened]="isDrawerOpened$ | async">
+    <app-side-bar></app-side-bar>
+  </mat-drawer>
+
+  <mat-drawer-content style="background-color: white">
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

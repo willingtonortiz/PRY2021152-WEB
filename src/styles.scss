@@ -1,0 +1,81 @@
+@use '~@angular/material' as mat;
+@import '~katex/dist/katex.css';
+@import './styles/variables.scss';
+
+@include mat.core();
+
+// Themes
+
+$mathyfight-admin-primary: mat.define-palette($my-primary-color);
+
+// TODO: Define accent color
+$mathyfight-admin-accent: mat.define-palette(
+  mat.$pink-palette,
+  A200,
+  A100,
+  A400
+);
+
+// TODO: Define warn color
+$mathyfight-admin-warn: mat.define-palette(mat.$red-palette);
+
+$mathyfight-admin-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $mathyfight-admin-primary,
+      accent: $mathyfight-admin-accent,
+      warn: $mathyfight-admin-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($mathyfight-admin-theme);
+
+html,
+body {
+  height: 100%;
+  background-color: white;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// * Custom styles
+
+.box-w16 {
+  min-width: 16px;
+  width: 16px;
+}
+
+.box-w32 {
+  min-width: 32px;
+  width: 32px;
+}
+
+.box-w48 {
+  min-width: 48px;
+  width: 48px;
+}
+
+.box-w64 {
+  min-width: 64px;
+  width: 64px;
+}
+
+.box-w96 {
+  min-width: 96px;
+  width: 96px;
+}
+
+.box-w128 {
+  min-width: 128px;
+  width: 128px;
+}

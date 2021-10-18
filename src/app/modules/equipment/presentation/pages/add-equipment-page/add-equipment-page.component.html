@@ -1,0 +1,245 @@
+<div class="container" *ngIf="!isEquipmentAdded">
+  <div class="back-button">
+    <button mat-icon-button type="button" routerLink="/equipments">
+      <mat-icon>arrow_back</mat-icon> {{ ' ' }} Regresar
+    </button>
+  </div>
+
+  <div class="form" [formGroup]="formGroup">
+    <div class="form__header">
+      <mat-form-field appearance="outline" *ngIf="mode === 'ADD'">
+        <mat-label>Tipo de equipamiento</mat-label>
+
+        <mat-select [value]="selectedType" (valueChange)="onTypeChange($event)">
+          <mat-option *ngFor="let type of equipmentTypes" [value]="type">
+            {{ type.toSpanishString() }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <h2>
+        Complete todos los campos para
+        {{ mode === 'ADD' ? ' añadir un nuevo ' : 'editar el ' }}
+        equipamiento
+      </h2>
+    </div>
+
+    <div class="form__body">
+      <div class="row">
+        <input
+          #fileUpload
+          type="file"
+          style="display: none"
+          (change)="onFileSelected($event)"
+        />
+
+        <app-equipment-image
+          class="image"
+          *ngIf="imageSrc !== undefined"
+          [type]="selectedType"
+          [imageUrl]="imageSrc!"
+        ></app-equipment-image>
+
+        <div *ngIf="imageSrc" class="avatar-preview">
+          <img class="avatar" [src]="AVATAR_IMAGE" alt="avatar" />
+          <img class="equipment" [src]="imageSrc" alt="equipment" />
+        </div>
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          (click)="fileUpload.click()"
+        >
+          {{ mode === 'ADD' ? 'Agregar' : 'Cambiar' }}
+          imagen
+        </button>
+      </div>
+
+      <!-- * Name -->
+      <mat-form-field class="form__field" appearance="outline">
+        <mat-label>Nombre</mat-label>
+
+        <input
+          matInput
+          placeholder="Nombre del equipamiento"
+          formControlName="name"
+        />
+
+        <mat-error *ngIf="fname.hasError('required')">
+          El nombre del equipamiento es requerido
+        </mat-error>
+
+        <mat-error
+          *ngIf="fname.hasError('minlength') || fname.hasError('maxlength')"
+        >
+          El nombre debe tener entre
+          {{ MIN_EQUIPMENT_NAME_LENGTH }} y
+          {{ MAX_EQUIPMENT_NAME_LENGTH }} caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- * Description -->
+      <mat-form-field class="form__field" appearance="outline">
+        <mat-label>Descripción</mat-label>
+
+        <textarea
+          matInput
+          placeholder="Descripción del equipamiento"
+          formControlName="description"
+          rows="5"
+        ></textarea>
+
+        <mat-error *ngIf="fdescription.hasError('required')">
+          La descripción es requerida
+        </mat-error>
+
+        <mat-error
+          *ngIf="
+            fdescription.hasError('minlength') ||
+            fdescription.hasError('maxlength')
+          "
+        >
+          La descripción debe tener entre
+          {{ MIN_EQUIPMENT_DESCRIPTION_LENGTH }} y
+          {{ MAX_EQUIPMENT_DESCRIPTION_LENGTH }} caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- * Attack -->
+      <mat-form-field class="form__field" appearance="outline">
+        <mat-label class="form__field__label">
+          <img
+            src="assets/images/icons/attack.png"
+            alt="attack"
+            style="background-color: red; border-radius: 50%; width: 20px"
+          />
+          <span>Ataque</span>
+        </mat-label>
+
+        <input
+          matInput
+          placeholder="Ataque"
+          formControlName="attack"
+          type="number"
+          [min]="MIN_EQUIPMENT_ATTACK_VALUE"
+          [max]="MAX_EQUIPMENT_ATTACK_VALUE"
+        />
+
+        <mat-error *ngIf="fattack.hasError('required')">
+          El ataque es requerido
+        </mat-error>
+
+        <mat-error *ngIf="fattack.hasError('min') || fattack.hasError('max')">
+          El valor del ataque debe encontrarse entre
+          {{ MIN_EQUIPMENT_ATTACK_VALUE }} y
+          {{ MAX_EQUIPMENT_ATTACK_VALUE }}
+        </mat-error>
+      </mat-form-field>
+
+      <!-- * Defense -->
+      <mat-form-field class="form__field" appearance="outline">
+        <mat-label class="form__field__label">
+          <img
+            src="assets/images/icons/defense.png"
+            alt="defense"
+            style="background-color: blue; border-radius: 50%; width: 20px"
+          />
+          <span>Defensa</span></mat-label
+        >
+
+        <input
+          matInput
+          placeholder="Defensa"
+          formControlName="defense"
+          type="number"
+          [min]="MIN_EQUIPMENT_DEFENSE_VALUE"
+          [max]="MAX_EQUIPMENT_DEFENSE_VALUE"
+        />
+
+        <mat-error *ngIf="fdefense.hasError('required')">
+          La defensa es requerida
+        </mat-error>
+
+        <mat-error *ngIf="fdefense.hasError('min') || fdefense.hasError('max')">
+          El valor de la defensa debe encontrarse entre
+          {{ MIN_EQUIPMENT_DEFENSE_VALUE }} y
+          {{ MAX_EQUIPMENT_DEFENSE_VALUE }}
+        </mat-error>
+      </mat-form-field>
+
+      <!-- * Buy Price -->
+      <mat-form-field class="form__field" appearance="outline">
+        <mat-label class="form__field__label">
+          <img src="assets/images/icons/coin.png" alt="buy-price" />
+          <span>Precio de compra</span>
+        </mat-label>
+
+        <input
+          matInput
+          placeholder="Precio de compra"
+          formControlName="buyPrice"
+          type="number"
+          [min]="MIN_EQUIPMENT_BUYPRICE_VALUE"
+          [max]="MAX_EQUIPMENT_BUYPRICE_VALUE"
+        />
+
+        <mat-error *ngIf="fbuyPrice.hasError('required')">
+          El precio de compra es requerido
+        </mat-error>
+
+        <mat-error
+          *ngIf="fbuyPrice.hasError('min') || fbuyPrice.hasError('max')"
+        >
+          El valor del precio de compra debe encontrarse entre
+          {{ MIN_EQUIPMENT_BUYPRICE_VALUE }} y
+          {{ MAX_EQUIPMENT_BUYPRICE_VALUE }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-progress-bar
+      class="progress-bar"
+      mode="indeterminate"
+      *ngIf="equipmentsLoading$ | async"
+    ></mat-progress-bar>
+
+    <div class="form__footer">
+      <button
+        [disabled]="equipmentsLoading$ | async"
+        mat-flat-button
+        color="primary"
+        type="button"
+        (click)="addOrEditEquipment()"
+      >
+        {{ mode === 'ADD' ? 'Añadir equipamiento' : 'Guardar cambios' }}
+      </button>
+
+      <button
+        *ngIf="mode === 'EDIT'"
+        [disabled]="equipmentsLoading$ | async"
+        mat-button
+        color="primary"
+        type="button"
+        [routerLink]="['/equipments']"
+      >
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="success-container" *ngIf="isEquipmentAdded">
+  <h1>Enhorabuena</h1>
+
+  <p>Equipamiento {{ mode === 'ADD' ? 'añadido' : 'editado' }} con éxito</p>
+
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    [routerLink]="['/equipments']"
+  >
+    Regresar
+  </button>
+</div>

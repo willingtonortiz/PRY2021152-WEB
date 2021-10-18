@@ -1,0 +1,41 @@
+<div class="logo">
+  <img src="assets/images/logos/app-logo.png" alt="App logo" />
+</div>
+
+<div class="menu__items">
+  <div
+    class="menu__item"
+    routerLink="/learning"
+    [ngClass]="{ selected: selected === 0 }"
+  >
+    <mat-icon class="menu__item__icon">calculate</mat-icon>
+
+    <p>Ejercicios matemáticos</p>
+  </div>
+
+  <div
+    class="menu__item"
+    routerLink="/equipments"
+    [ngClass]="{ selected: selected === 1 }"
+  >
+    <mat-icon class="menu__item__icon">category</mat-icon>
+
+    <p>Equipamiento</p>
+  </div>
+
+  <div
+    class="menu__item"
+    routerLink="/enemies"
+    [ngClass]="{ selected: selected === 2 }"
+  >
+    <mat-icon class="menu__item__icon">people</mat-icon>
+
+    <p>Enemigos</p>
+  </div>
+</div>
+
+<div class="spacer"></div>
+
+<button mat-button color="primary" type="button" (click)="logout()">
+  Cerrar sesión
+</button>

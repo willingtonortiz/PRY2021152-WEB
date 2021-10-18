@@ -1,0 +1,21 @@
+:host {
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  padding: 16px 16px;
+
+  display: flex;
+  flex-flow: column nowrap;
+
+  background-color: white;
+}
+
+.add-new-enemy {
+  cursor: pointer;
+}
+
+.enemies {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}

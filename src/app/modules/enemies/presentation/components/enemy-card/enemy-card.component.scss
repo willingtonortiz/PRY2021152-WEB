@@ -1,0 +1,97 @@
+:host {
+  display: block;
+}
+
+.preview,
+.show,
+.add,
+.update {
+  height: 250px;
+
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.preview {
+  border: 1px dashed rgba(0, 0, 0, 0.3);
+  border-radius: 7px;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.show {
+  .enemy__image {
+    padding: 16px;
+    width: 100%;
+    image-rendering: pixelated;
+  }
+
+  .enemy__name {
+    flex: 1;
+
+    font-weight: bold;
+    text-align: center;
+  }
+}
+
+.add {
+  .enemy__image {
+    margin-bottom: 8px;
+
+    image-rendering: pixelated;
+    object-fit: contain;
+    cursor: pointer;
+  }
+
+  .enemy__image__input {
+    width: 100%;
+    flex: 1;
+    margin-bottom: 8px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #f9f9f9;
+    border-radius: 7px;
+    cursor: pointer;
+
+    span {
+      color: #3413ff;
+      text-decoration: underline;
+    }
+  }
+}
+
+.update {
+  width: 100%;
+
+  .enemy__image {
+    margin-bottom: 8px;
+
+    image-rendering: pixelated;
+    object-fit: contain;
+    cursor: pointer;
+  }
+
+  .enemy__input {
+    width: 100%;
+  }
+}
+
+.enemy__options {
+  border: 1px solid rgba($color: #cacaca, $alpha: 0.3);
+  border-radius: 7px;
+  padding: 8px 0;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .enemy__option {
+    cursor: pointer;
+  }
+}

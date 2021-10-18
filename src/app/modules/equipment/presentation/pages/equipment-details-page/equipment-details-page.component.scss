@@ -1,0 +1,49 @@
+:host {
+  min-height: 100vh;
+  height: 100vh;
+
+  display: block;
+  padding: 32px 32px;
+}
+
+.images {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 24px 0;
+}
+
+.avatar-preview {
+  margin-right: 16px;
+  position: relative;
+  justify-self: end;
+  align-self: end;
+
+  width: 125px;
+  height: 125px;
+
+  .avatar,
+  .equipment {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+  }
+}
+
+.property {
+  margin-bottom: 20px;
+
+  display: flex;
+  flex-flow: column nowrap;
+
+  font-size: 16px;
+
+  &__label {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+}

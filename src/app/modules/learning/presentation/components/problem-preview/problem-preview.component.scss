@@ -1,0 +1,44 @@
+@import 'variables';
+
+:host {
+  display: block;
+  border: 1px solid rgba($color: #565656, $alpha: 0.3);
+  padding: 32px;
+  border-radius: 8px;
+}
+
+.row {
+  margin-bottom: 16px;
+
+  display: flex;
+  flex-flow: row nowrap;
+
+  .image-preview {
+    max-height: 150px;
+    max-width: 350px;
+
+    margin-right: 32px;
+  }
+}
+
+.answers {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+
+  .answer {
+    font-size: 18px;
+    min-width: 120px;
+    margin: 8px;
+    padding: 8px 12px;
+
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &.selected {
+      background-color: map-get($my-primary-color, 500);
+      color: white;
+    }
+  }
+}

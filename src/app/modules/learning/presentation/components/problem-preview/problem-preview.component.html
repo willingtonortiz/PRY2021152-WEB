@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="left">
+    <img
+      class="image-preview"
+      *ngIf="imageUrl !== null && imageUrl !== undefined"
+      [src]="imageUrl"
+      alt="Preview image"
+    />
+  </div>
+
+  <div class="right">
+    <p>{{ description }}</p>
+  </div>
+</div>
+
+<div class="answers">
+  <div
+    class="answer"
+    *ngFor="let answer of answers; index as i"
+    [class.selected]="i === selectedAnswer"
+  >
+    <ng-katex [equation]="answerLetters[i] + ') \\;' + answer"></ng-katex>
+  </div>
+</div>

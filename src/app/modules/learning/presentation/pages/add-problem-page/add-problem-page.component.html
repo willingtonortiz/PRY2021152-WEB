@@ -1,0 +1,183 @@
+<div class="container" *ngIf="!problemAdded">
+  <div class="back-button">
+    <button mat-icon-button type="button" routerLink="/learning/topics">
+      <mat-icon>arrow_back</mat-icon> {{ ' ' }} Regresar
+    </button>
+  </div>
+
+  <h1>{{ selectedArea?.name }} / {{ selectedTopic?.name }}</h1>
+
+  <p>
+    Complete todos los campos para
+    {{ mode === 'ADD' ? ' agregar un ' : ' editar el ' }} ejercicio
+  </p>
+
+  <div class="body">
+    <form class="form" [formGroup]="formGroup">
+      <mat-form-field class="form__field text" appearance="outline">
+        <mat-label>Descripción (opcional)</mat-label>
+
+        <textarea
+          matInput
+          placeholder="Agregue una descripción..."
+          formControlName="description"
+          rows="5"
+        ></textarea>
+
+        <mat-error
+          *ngIf="
+            fdescription.hasError('minlength') ||
+            fdescription.hasError('maxlength')
+          "
+        >
+          La descripción debe tener entre {{ MIN_PROBLEM_DESCRIPTION_LENGTH }} y
+          {{ MAX_PROBLEM_DESCRIPTION_LENGTH }} caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form__field" appearance="outline">
+        <mat-label>Nivel</mat-label>
+
+        <mat-select formControlName="difficulty">
+          <mat-option *ngFor="let level of difficultyLevels" [value]="level.id">
+            {{ level.name }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="fdifficulty.hasError('required')">
+          El nivel de dificultad es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <span style="margin-top: 32px">Imagen del ejercicio (opcional)</span>
+      <div class="row">
+        <input
+          #fileUpload
+          type="file"
+          style="display: none"
+          (change)="onFileSelected($event)"
+        />
+
+        <img *ngIf="imageSrc" [src]="imageSrc" alt="problem" />
+
+        <button
+          mat-flat-button
+          type="button"
+          color="primary"
+          (click)="fileUpload.click()"
+        >
+          Agregar imagen
+        </button>
+      </div>
+
+      <span style="margin-top: 32px">Alternativas</span>
+      <span>Marca con check la alternativa correcta</span>
+
+      <div class="alternatives" formArrayName="answers">
+        <div
+          class="alternative"
+          *ngFor="let item of answersForm.controls; index as i"
+        >
+          <mat-form-field
+            appearance="outline"
+            class="form__field text alternative__input"
+            [ngClass]="{ selected: selectedAnswerIndex === i }"
+          >
+            <mat-label>Respuesta</mat-label>
+
+            <input
+              matInput
+              placeholder="Agregue una respuesta"
+              [formControl]="answerForm(i)"
+            />
+
+            <mat-error *ngIf="answerForm(i).hasError('required')">
+              La respuesta es requerida
+            </mat-error>
+
+            <mat-error
+              *ngIf="
+                answerForm(i).hasError('minlength') ||
+                answerForm(i).hasError('maxlength')
+              "
+            >
+              La respuesta debe tener entre
+              {{ MIN_PROBLEM_ALTERNATIVE_LENGTH }} y
+              {{ MAX_PROBLEM_ALTERNATIVE_LENGTH }} caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <button
+            mat-icon-button
+            class="alternative__button"
+            type="button"
+            (click)="onAnswerSelected(i)"
+            *ngIf="selectedAnswerIndex === undefined"
+          >
+            <mat-icon
+              *ngIf="selectedAnswerIndex === undefined"
+              [style.color]="'#3413ff'"
+              >check</mat-icon
+            >
+          </button>
+
+          <button
+            mat-icon-button
+            class="alternative__button"
+            type="button"
+            (click)="onAnswerSelected(undefined)"
+            *ngIf="selectedAnswerIndex === i"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="box-w64"></div>
+
+    <div class="right">
+      <h4>Vista previa</h4>
+
+      <app-problem-preview
+        [description]="fdescription.value"
+        [imageUrl]="imageSrc"
+        [selectedAnswer]="selectedAnswerIndex"
+        [answers]="answersValues"
+      ></app-problem-preview>
+
+      <div *ngIf="problemsLoading$ | async">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+
+      <button
+        class="add-button"
+        mat-flat-button
+        color="primary"
+        type="button"
+        *ngIf="!(problemsLoading$ | async)"
+        (click)="addOrEditProblem()"
+      >
+        {{ mode === 'ADD' ? 'Agregar ejercicio' : 'Guardar cambios' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="problem-added" *ngIf="problemAdded">
+  <h1>Enhorabuena</h1>
+  <p>
+    Se ha {{ mode === 'ADD' ? 'añadido' : 'editado' }} con éxito el ejercicio a
+    {{ selectedArea?.name }} -
+    {{ selectedTopic?.name }}
+  </p>
+
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    [routerLink]="['/learning', 'topics']"
+  >
+    Ir a ejercicios
+  </button>
+</div>

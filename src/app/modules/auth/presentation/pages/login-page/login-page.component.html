@@ -1,0 +1,84 @@
+<div class="container">
+  <form
+    class="login-form"
+    action=""
+    [formGroup]="formGroup"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="logo">
+      <img src="assets/images/logos/app-logo.png" alt="App logo" />
+    </div>
+
+    <mat-form-field class="form-input">
+      <mat-label>Usuario</mat-label>
+
+      <input
+        matInput
+        placeholder="Ingrese su nombre de usuario"
+        formControlName="username"
+      />
+
+      <mat-error *ngIf="fusername.hasError('required')">
+        El nombre de usuario es requerido
+      </mat-error>
+      <mat-error
+        *ngIf="
+          fusername.hasError('minlength') || fusername.hasError('maxlength')
+        "
+      >
+        El nombre de usuario debe tener entre {{ MIN_USERNAME_LENGTH }} y
+        {{ MAX_USERNAME_LENGTH }} caracteres
+      </mat-error>
+      <mat-error *ngIf="fusername.hasError('pattern')">
+        El nombre de usuario solo debe contener caracteres alfanuméricos
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-input">
+      <mat-label>Contraseña</mat-label>
+
+      <input
+        matInput
+        type="password"
+        placeholder="Ingrese su contraseña"
+        formControlName="password"
+        [type]="showPassword ? 'text' : 'password'"
+      />
+
+      <mat-icon
+        matSuffix
+        (click)="showPassword = !showPassword"
+        style="cursor: pointer"
+        >{{ showPassword ? 'visibility' : 'visibility_off' }}</mat-icon
+      >
+
+      <mat-error *ngIf="fpassword.hasError('required')">
+        La contraseña es requerida
+      </mat-error>
+      <mat-error
+        *ngIf="
+          fpassword.hasError('minlength') || fpassword.hasError('maxlength')
+        "
+      >
+        La contraseña debe tener entre {{ MIN_PASSWORD_LENGTH }} y
+        {{ MAX_PASSWORD_LENGTH }} caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="isLoading$ | async"
+    ></mat-progress-bar>
+
+    <button
+      [disabled]="isLoading$ | async"
+      class="form-button"
+      mat-flat-button
+      color="primary"
+      type="submit"
+      (click)="onSubmit()"
+    >
+      Iniciar sesión
+    </button>
+  </form>
+</div>

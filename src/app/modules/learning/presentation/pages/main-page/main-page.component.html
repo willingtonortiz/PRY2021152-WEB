@@ -1,0 +1,255 @@
+<!-- * Areas -->
+<div class="area-selector">
+  <p class="title">Áreas</p>
+
+  <div *ngIf="areasLoading$ | async">
+    <mat-spinner [diameter]="40"></mat-spinner>
+  </div>
+
+  <mat-select
+    *ngIf="!(areasLoading$ | async)"
+    [(value)]="selectedArea"
+    (selectionChange)="onAreaChanged($event)"
+  >
+    <mat-option *ngFor="let area of areas$ | async" [value]="area">
+      {{ area.name }}
+    </mat-option>
+  </mat-select>
+</div>
+
+<div class="header">
+  <h1>{{ selectedArea?.name }}</h1>
+</div>
+
+<div class="body">
+  <!-- * Topics -->
+  <div class="topics">
+    <div class="header">
+      <h1>Temas</h1>
+
+      <button
+        class="form-button"
+        mat-flat-button
+        color="primary"
+        type="button"
+        [routerLink]="['/learning', 'areas', selectedArea?.id, 'topics', 'add']"
+      >
+        Agregar Tema
+      </button>
+    </div>
+
+    <div *ngIf="topicsLoading$ | async">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+
+    <div class="no-topics" *ngIf="(topics$ | async)?.length === 0">
+      <p>No hay temas para el área seleccionada</p>
+
+      <button
+        class="form-button"
+        mat-flat-button
+        color="primary"
+        type="button"
+        [routerLink]="['/learning', 'areas', selectedArea?.id, 'topics', 'add']"
+      >
+        Agregar Tema
+      </button>
+    </div>
+
+    <ng-scrollbar
+      visibility="hover"
+      *ngIf="!(topicsLoading$ | async) && (topics$ | async)?.length !== 0"
+    >
+      <div
+        class="row"
+        *ngFor="let topic of topics$ | async; trackBy: topicTrackBy"
+      >
+        <div
+          class="topic__item"
+          [ngClass]="{ selected: (selectedTopic$ | async)! === topic }"
+          (click)="onTopicSelected(topic)"
+        >
+          <img
+            class="topic__item__image"
+            [src]="topic.imageUrl"
+            [alt]="topic.name"
+          />
+
+          <p class="topic__item__text">{{ topic.name }}</p>
+        </div>
+
+        <button
+          mat-icon-button
+          [routerLink]="['/learning', 'topics', topic.id]"
+        >
+          <mat-icon>visibility</mat-icon>
+        </button>
+
+        <button
+          mat-icon-button
+          [routerLink]="['/learning', 'topics', topic.id, 'edit']"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="removeTopic(topic.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </ng-scrollbar>
+  </div>
+
+  <div class="box-w32"></div>
+
+  <!-- * Problems -->
+  <div class="problems">
+    <div class="header">
+      <h1>Ejercicios</h1>
+
+      <button
+        class="form-button"
+        mat-flat-button
+        color="primary"
+        type="button"
+        *ngIf="selectedTopic$ | async"
+        [routerLink]="[
+          '/learning',
+          'topics',
+          (selectedTopic$ | async)?.id,
+          'problems',
+          'add'
+        ]"
+      >
+        Agregar Ejercicio
+      </button>
+    </div>
+
+    <div *ngIf="problemsLoading$ | async">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+
+    <p *ngIf="!(selectedTopic$ | async)">Selecciona un tema!</p>
+
+    <div
+      class="no-exercises"
+      *ngIf="
+        (selectedTopic$ | async) &&
+        !(problemsLoading$ | async) &&
+        (problems$ | async)!.length === 0
+      "
+    >
+      <p>No hay ejercicios, agrega uno!</p>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        [routerLink]="[
+          '/learning',
+          'topics',
+          (selectedTopic$ | async)?.id,
+          'problems',
+          'add'
+        ]"
+      >
+        Agregar Ejercicio
+      </button>
+    </div>
+
+    <ng-scrollbar
+      visibility="hover"
+      *ngIf="
+        !(problemsLoading$ | async) &&
+        (selectedTopic$ | async) &&
+        (problems$ | async)!.length > 0
+      "
+    >
+      <table mat-table class="table" [dataSource]="(problems$ | async)!">
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef>N°</th>
+
+          <td mat-cell *matCellDef="let element; let i = index">
+            <span style="font-weight: bold">{{ i + 1 }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Descripción</th>
+
+          <td mat-cell *matCellDef="let element; let i = index">
+            <div
+              style="
+                padding: 16px 0;
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span *ngIf="element.description && element.description !== ''">{{
+                element.description
+              }}</span>
+
+              <span *ngIf="!element.description || element.description === ''">
+                {{ 'No hay descripción' }}
+              </span>
+
+              <img
+                *ngIf="element.imageUrl"
+                style="max-height: 50px; max-width: 150px"
+                [src]="element.imageUrl"
+                [alt]="'problem ' + i"
+              />
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="difficulty">
+          <th mat-header-cell *matHeaderCellDef>Dificultad</th>
+
+          <td mat-cell *matCellDef="let element">
+            <div class="chip">
+              <p>{{ element.difficulty }}</p>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+
+          <td mat-cell *matCellDef="let element; let i = index">
+            <button
+              mat-icon-button
+              [routerLink]="['/learning', 'problems', element.id]"
+            >
+              <mat-icon>visibility</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              [routerLink]="['/learning', 'problems', element.id, 'edit']"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="removeProblem(element.id, i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns; index as i"
+          class="problems__item"
+          [ngClass]="{ even: i % 2 === 0 }"
+        ></tr>
+      </table>
+    </ng-scrollbar>
+  </div>
+</div>

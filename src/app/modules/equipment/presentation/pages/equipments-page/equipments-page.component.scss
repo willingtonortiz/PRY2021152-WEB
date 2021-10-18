@@ -1,0 +1,113 @@
+@import 'variables.scss';
+
+:host {
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  padding: 16px 32px;
+
+  display: flex;
+  flex-flow: column nowrap;
+
+  background-color: white;
+}
+
+.filters {
+  display: flex;
+  flex-flow: row wrap;
+
+  &__item.active {
+    background-color: map-get($my-primary-color, 500);
+    color: white;
+  }
+
+  &__item {
+    width: 100px;
+  }
+
+  &__item:not(:last-child) {
+    margin-right: 24px;
+  }
+}
+
+.information {
+  margin: 16px 0;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  .total {
+    font-size: 20px;
+  }
+
+  .help {
+    margin-right: 8px;
+    font-size: 13px;
+  }
+}
+
+.table-container {
+  position: relative;
+
+  .table-loader {
+    position: absolute;
+    top: 55px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+  }
+
+  .table {
+    width: 100%;
+
+    .table__header {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .column-header {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+
+      img {
+        margin-right: 4px;
+      }
+    }
+
+    .equipment__name {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+
+      app-equipment-image {
+        margin-right: 8px;
+      }
+    }
+
+    .mat-column-description {
+      width: 400px;
+      padding: 20px 24px;
+    }
+
+    .mat-column-attack,
+    .mat-column-defense,
+    .mat-column-buyPrice,
+    .mat-column-sellPrice {
+      padding: 0 16px;
+    }
+
+    .mat-column-actions {
+      min-width: 200px;
+    }
+  }
+}
+
+.even {
+  background-color: #fafafa;
+}

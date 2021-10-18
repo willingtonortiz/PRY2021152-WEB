@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Confirmación</h2>
+
+<mat-dialog-content class="mat-typography">
+  <p>¿Está seguro de eliminar {{ data.name }}?</p>
+
+  <p *ngIf="data.content">{{ data.content }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+
+  <button
+    mat-button
+    [mat-dialog-close]="true"
+    [style.backgroundColor]="'#FB3968'"
+    [style.color]="'#ffffff'"
+  >
+    Sí, eliminar
+  </button>
+</mat-dialog-actions>
